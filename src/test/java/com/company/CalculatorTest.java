@@ -12,8 +12,8 @@ class CalculatorTest {
     @Test
     @DisplayName("Тестирование калькулятора")
     public void calculatorTest() {
-        assertEquals(6, calculator.calculate("2+2*2"));
-        assertEquals(8, calculator.calculate("(2+2)*2"));
+        assertEquals(22, calculator.calculate("(4*6)-2"));
+        assertEquals(1.4285714285714286, calculator.calculate("10/(5+2)"));
         assertThrows(IllegalArgumentException.class,() ->
                 calculator.calculate("(2(+2)*2"), "Unbalanced parentheses");
         assertThrows(IllegalArgumentException.class,() ->

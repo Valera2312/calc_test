@@ -14,7 +14,7 @@ public class Calculator {
     }
 
     public Double calculate(String expression) {
-       return RPNtoAnswer(expressionToRPN(expression));
+        return RPNtoAnswer(expressionToRPN(expression));
     }
 
     private static String expressionToRPN(String expression) {
@@ -69,21 +69,21 @@ public class Calculator {
             priority = precedence(currentChar);
 
 
-            if(currentChar == ' ') continue;
+            if (currentChar == ' ') continue;
 
-            if(priority == 0) {
-                while (rpn.charAt(i) != ' ' && precedence(rpn.charAt(i))== 0) {
+            if (priority == 0) {
+                while (rpn.charAt(i) != ' ' && precedence(rpn.charAt(i)) == 0) {
                     operand.append(rpn.charAt(i++));
-                    if(i == rpn.length()) break;
+                    if (i == rpn.length()) break;
                 }
                 stack.push(Double.parseDouble(operand.toString()));
                 operand = new StringBuilder();
             }
-            if(precedence(currentChar) > 1) {
+            if (precedence(currentChar) > 1) {
                 if (!operations.containsKey(currentChar)) {
                     throw new IllegalArgumentException("Invalid operator: " + currentChar);
                 }
-                double a = stack.pop(), b = stack.pop();
+                double b = stack.pop(), a = stack.pop();
                 Operation operation = operations.get(currentChar);
                 double result = operation.perform(a, b);
                 stack.push(result);
@@ -96,10 +96,10 @@ public class Calculator {
     }
 
     private static int precedence(char token) {
-        if(token == '*' || token == '/') return 3;
-        else if(token == '+' || token == '-') return 2;
-        else if(token == '(') return 1;
-        else if(token == ')') return -1;
+        if (token == '*' || token == '/') return 3;
+        else if (token == '+' || token == '-') return 2;
+        else if (token == '(') return 1;
+        else if (token == ')') return -1;
         else return 0;
     }
 }
