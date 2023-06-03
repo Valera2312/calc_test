@@ -72,7 +72,11 @@ public class Calculator {
             if (currentChar == ' ') continue;
 
             if (priority == 0) {
+
                 while (rpn.charAt(i) != ' ' && precedence(rpn.charAt(i)) == 0) {
+                    if(!Character.isDigit(rpn.charAt(i))) {
+                        throw new IllegalArgumentException("Invalid operator: " + rpn.charAt(i));
+                    }
                     operand.append(rpn.charAt(i++));
                     if (i == rpn.length()) break;
                 }
@@ -80,13 +84,14 @@ public class Calculator {
                 operand = new StringBuilder();
             }
             if (precedence(currentChar) > 1) {
-                if (!operations.containsKey(currentChar)) {
-                    throw new IllegalArgumentException("Invalid operator: " + currentChar);
+                try {
+                    double b = stack.pop(), a = stack.pop();
+                    Operation operation = operations.get(currentChar);
+                    double result = operation.perform(a, b);
+                    stack.push(result);
+                } catch (NoSuchElementException e) {
+                    throw new IllegalArgumentException("Invalid expression");
                 }
-                double b = stack.pop(), a = stack.pop();
-                Operation operation = operations.get(currentChar);
-                double result = operation.perform(a, b);
-                stack.push(result);
             }
         }
         if (stack.size() != 1) {
